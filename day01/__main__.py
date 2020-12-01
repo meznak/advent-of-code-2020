@@ -1,5 +1,3 @@
-#!/bin/env python3
-
 import sys, os
 
 def main(in_file):
@@ -13,9 +11,18 @@ def main(in_file):
 
     entries = [int(entry) for entry in lines]
 
-    print(check_nums(entries))
+    print(f'part 1: {solve_1(entries)}')
+    print(f'part 2: {solve_2(entries)}')
 
-def check_nums(entries):
+def solve_1(entries):
+    for i in range(len(entries)):
+        for j in range(i, len(entries)):
+            a = entries[i]
+            b = entries[j]
+            if a + b == 2020:
+                    return a * b
+
+def solve_2(entries):
     for i in range(len(entries)):
         for j in range(i, len(entries)):
             for k in range(j, len(entries)):

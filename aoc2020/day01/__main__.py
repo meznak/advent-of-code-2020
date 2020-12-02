@@ -23,6 +23,8 @@ def solve_2(entries: [int]) -> int:
 
 if __name__ == "__main__":
     sample, data = read_input(__file__)
+    sample = [int(entry) for entry in sample]
+    data = [int(entry) for entry in data]
 
     sample_result_1 = solve_1(sample)
     assert(sample_result_1 == sample_solution_1), \

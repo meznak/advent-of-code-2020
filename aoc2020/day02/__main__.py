@@ -28,8 +28,11 @@ def check_password_1(entry: dict) -> int:
     return is_valid
 
 def check_password_2(entry: dict) -> int:
-    if entry['password'][entry['min']-1] == entry['chr'] or \
-        entry['password'][entry['max']-1] == entry['chr']:
+    chr = entry['chr']
+    first = entry['password'][entry['min']-1]
+    second = entry['password'][entry['max']-1]
+
+    if (first == chr) ^ (second == chr):
         is_valid = 1
     else:
         is_valid = 0

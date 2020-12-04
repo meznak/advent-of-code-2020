@@ -7,6 +7,6 @@ def read_input(script_file: str) -> ([], []):
         sample = [entry.strip() for entry in f.readlines()]
 
     with open(os.path.join(path, 'input'), 'r') as f:
-        data = [entry for entry in f.readlines()]
+        data = [entry.strip() for entry in f.readlines()]
 
     return (sample, data)

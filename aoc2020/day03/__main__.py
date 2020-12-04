@@ -1,29 +1,33 @@
 from ..shared import read_input
 from typing import Callable
 
-sample_solution_1 = 20
+sample_solution_1 = 7
 
 def count_trees_1(data: [str]) -> int:
     row = 0
     col = 0
     line_count = len(data)
+    line_length = len(data[0])
     tree_count = 0
+    checked = []
 
-    while row < line_count:
-        while data[row] == '':
-            row += 1
-        line = data[row]
-
-        # Extend the current line as needed
-        while col >= len(line) + 1:
-            line += line
-
-        if line[col] == '#':
-            tree_count += 1
-
+    while row < line_count - 1:
         # Move the cursor
         row += 1
         col += 3
+
+        line = data[row]
+
+        line = list(line)
+        pos = col % line_length
+
+        if line[pos] == '#':
+            tree_count += 1
+            line[pos] = 'X'
+        else:
+            line[pos] = 'O'
+
+        checked.append(''.join(line))
 
     return tree_count
 

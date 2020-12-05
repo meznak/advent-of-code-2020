@@ -3,7 +3,7 @@ Advent of Code Day 03
 Toboggan tree counting
 '''
 
-from ..shared import read_input, run_checks
+from ..shared import read_input, run_solvers
 
 SAMPLE_SOLUTIONS = [7, 336]
 
@@ -73,4 +73,4 @@ def count_trees_2(rows: [str]) -> int:
 if __name__ == '__main__':
     samples, data = read_input(__file__)
 
-    run_checks(samples, data, [count_trees_1, count_trees_2], SAMPLE_SOLUTIONS)
+    run_solvers(samples, data, [count_trees_1, count_trees_2], SAMPLE_SOLUTIONS)

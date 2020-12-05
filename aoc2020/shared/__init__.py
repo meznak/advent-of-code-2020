@@ -13,16 +13,18 @@ def read_input(script_file: str) -> (list, list, list):
     path = os.path.dirname(os.path.realpath(script_file))
 
     with open(os.path.join(path, 'sample1'), 'r') as in_file:
-        sample1 = [entry.strip() for entry in in_file.readlines()]
+        sample_1 = [entry.strip() for entry in in_file.readlines()]
 
     try:
         with open(os.path.join(path, 'sample2'), 'r') as in_file:
-            sample2 = [entry.strip() for entry in in_file.readlines()]
+            sample_2 = [entry.strip() for entry in in_file.readlines()]
+            if len(sample_2) == 0:
+                sample_2 = sample_1
     except FileNotFoundError:
-        sample2 = sample1
+        sample_2 = sample_1
         print('sample2 file not found')
 
-    samples = [sample1, sample2]
+    samples = [sample_1, sample_2]
 
     with open(os.path.join(path, 'input'), 'r') as in_file:
         data = [entry.strip() for entry in in_file.readlines()]

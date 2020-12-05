@@ -1,26 +1,30 @@
-from ..shared import read_input
-from typing import Callable
+'''
+Advent of Code Day 03
+Toboggan tree counting
+'''
 
-sample_solution_1 = 7
-sample_solution_2 = 336
+from ..shared import read_input, run_checks
 
-def count_trees_1(data: [str]) -> int:
-    row = 0
-    col = 0
-    line_count = len(data)
-    line_length = len(data[0])
+SAMPLE_SOLUTIONS = [7, 336]
+
+def count_trees_1(rows: [str]) -> int:
+    '''Solve part 1'''
+    row_num = 0
+    col_num = 0
+    line_count = len(rows)
+    line_length = len(rows[0])
     tree_count = 0
     checked = []
 
-    while row < line_count - 1:
+    while row_num < line_count - 1:
         # Move the cursor
-        row += 1
-        col += 3
+        row_num += 1
+        col_num += 3
 
-        line = data[row]
+        line = rows[row_num]
 
         line = list(line)
-        pos = col % line_length
+        pos = col_num % line_length
 
         if line[pos] == '#':
             tree_count += 1
@@ -32,23 +36,24 @@ def count_trees_1(data: [str]) -> int:
 
     return tree_count
 
-def count_trees_2(data: [str]) -> int:
+def count_trees_2(rows: [str]) -> int:
+    '''Solve part 2'''
     product = 1
 
     for slope in [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]:
-        row = 0
+        row_num = 0
         col = 0
-        line_count = len(data)
-        line_length = len(data[0])
+        col_num = len(rows)
+        line_length = len(rows[0])
         tree_count = 0
         checked = []
 
-        while row < line_count - 1:
+        while row_num < col_num - 1:
             # Move the cursor
-            row += slope[1]
+            row_num += slope[1]
             col += slope[0]
 
-            line = data[row]
+            line = rows[row_num]
 
             line = list(line)
             pos = col % line_length
@@ -65,25 +70,7 @@ def count_trees_2(data: [str]) -> int:
 
     return product
 
-def check_list(sample: [str], data: [str], count_trees: Callable[[list], int], \
-    sample_solution: int) -> int:
-    run_count = 0
-
-    for dataset in [sample, data]:
-        tree_count = count_trees(dataset)
-
-        if run_count == 0:
-            assert(tree_count == sample_solution), \
-                f'''Expected {sample_solution}, got {tree_count}'''
-            run_count += 1
-        else:
-            return tree_count
-
 if __name__ == '__main__':
-    sample, data = read_input(__file__)
+    samples, data = read_input(__file__)
 
-    tree_count = check_list(sample, data, count_trees_1, sample_solution_1)
-    print(f'part 1: {tree_count}')
-
-    tree_count = check_list(sample, data, count_trees_2, sample_solution_2)
-    print(f'part 2: {tree_count}')
+    run_checks(samples, data, [count_trees_1, count_trees_2], SAMPLE_SOLUTIONS)

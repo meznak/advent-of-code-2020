@@ -19,7 +19,7 @@ def read_input(script_file: str) -> (list, list, list):
         with open(os.path.join(path, 'sample2'), 'r') as in_file:
             sample2 = [entry.strip() for entry in in_file.readlines()]
     except FileNotFoundError:
-        sample2 = None
+        sample2 = sample1
         print('sample2 file not found')
 
     samples = [sample1, sample2]
@@ -54,7 +54,7 @@ def run_checks(samples: list, data: list, check_functions: list, \
     Run all solutions for the current puzzle
     '''
 
-    for index in range(len(samples)):
+    for index in range(len(check_functions)):
         result = check_list(samples[index], data, check_functions[index], \
             sample_solutions[index])
         print(f'result {index}: {result}')

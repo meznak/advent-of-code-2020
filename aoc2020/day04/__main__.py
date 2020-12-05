@@ -4,7 +4,7 @@ Passport verification
 '''
 
 import re
-from ..shared import read_input, run_checks
+from ..shared import read_input, run_solvers
 
 SAMPLE_SOLUTIONS = [2, 4]
 
@@ -149,7 +149,7 @@ def parse_data(dataset: list) -> list:
 
     return passports
 
-def check_1(dataset: list) -> int:
+def solve_1(dataset: list) -> int:
     '''Solve part 1'''
     valid_count = 0
 
@@ -166,7 +166,7 @@ def check_1(dataset: list) -> int:
 
     return valid_count
 
-def check_2(dataset: list) -> int:
+def solve_2(dataset: list) -> int:
     '''Solve part 2'''
     valid_count = 0
 
@@ -191,6 +191,6 @@ if __name__ == '__main__':
 
     data_parsed = parse_data(data)
 
-    checks = [check_1, check_2]
+    solvers = [solve_1, solve_2]
 
-    run_checks(samples_parsed, data_parsed, checks, SAMPLE_SOLUTIONS)
+    run_solvers(samples_parsed, data_parsed, solvers, SAMPLE_SOLUTIONS)

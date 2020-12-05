@@ -3,7 +3,7 @@ Advent of Code Day 01
 Expenses
 '''
 
-from  ..shared import read_input, run_checks
+from  ..shared import read_input, run_solvers
 
 SAMPLE_SOLUTIONS = [514579, 241861950]
 
@@ -34,6 +34,6 @@ if __name__ == "__main__":
     samples_parsed = [[int(entry) for entry in sample] for sample in samples]
     data_parsed = [int(entry) for entry in data]
 
-    checks = [solve_1, solve_2]
+    solvers = [solve_1, solve_2]
 
-    run_checks(samples_parsed, data_parsed, checks, SAMPLE_SOLUTIONS)
+    run_solvers(samples_parsed, data_parsed, solvers, SAMPLE_SOLUTIONS)

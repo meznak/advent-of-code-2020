@@ -4,7 +4,7 @@ Password validation
 '''
 
 import re
-from ..shared import read_input, run_checks
+from ..shared import read_input, run_solvers
 
 SAMPLE_SOLUTIONS = [2, 1]
 
@@ -55,6 +55,6 @@ if __name__ == '__main__':
     samples_parsed = [parse_data(sample) for sample in samples]
     data_parsed = parse_data(data)
 
-    checks = [check_password_1, check_password_2]
+    solvers = [check_password_1, check_password_2]
 
-    run_checks(samples_parsed, data_parsed, checks, SAMPLE_SOLUTIONS)
+    run_solvers(samples_parsed, data_parsed, solvers, SAMPLE_SOLUTIONS)

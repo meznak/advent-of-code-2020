@@ -31,7 +31,7 @@ def read_input(script_file: str) -> (list, list, list):
 
     return (samples, data)
 
-def check_list(sample: [str], data: [str], check: Callable[[list], int], \
+def solve_list(sample: [str], data: [str], solve: Callable[[list], int], \
     sample_solution: int) -> int:
     '''
     Run solution against sample data, comparing expected results. If
@@ -41,7 +41,7 @@ def check_list(sample: [str], data: [str], check: Callable[[list], int], \
     run_count = 0
 
     for dataset in [sample, data]:
-        result = check(dataset)
+        result = solve(dataset)
 
         if run_count == 0:
             assert(result == sample_solution), \
@@ -50,13 +50,13 @@ def check_list(sample: [str], data: [str], check: Callable[[list], int], \
 
     return result
 
-def run_checks(samples: list, data: list, check_functions: list, \
+def run_solvers(samples: list, data: list, solvers: list, \
     sample_solutions: list) -> None:
     '''
     Run all solutions for the current puzzle
     '''
 
-    for index in range(len(check_functions)):
-        result = check_list(samples[index], data, check_functions[index], \
+    for index in range(len(solvers)):
+        result = solve_list(samples[index], data, solvers[index], \
             sample_solutions[index])
         print(f'result {index}: {result}')

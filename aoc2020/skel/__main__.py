@@ -4,7 +4,7 @@ Advent of Code Day XX
 TITLE
 '''
 
-from ..shared import read_input, run_checks
+from ..shared import read_input, run_solvers
 
 # TODO: Add sample solutions
 SAMPLE_SOLUTIONS = []
@@ -41,4 +41,4 @@ if __name__ == '__main__':
 
     solvers = [solve_1, solve_2]
 
-    run_checks(samples_parsed, data_parsed, solvers, SAMPLE_SOLUTIONS)
+    run_solvers(samples_parsed, data_parsed, solvers, SAMPLE_SOLUTIONS)

@@ -56,7 +56,7 @@ def run_solvers(samples: list, data: list, solvers: list, \
     Run all solutions for the current puzzle
     '''
 
-    for index in range(len(solvers)):
+    for index in range(len(sample_solutions)):
         result = solve_list(samples[index], data, solvers[index], \
             sample_solutions[index])
         print(f'result {index}: {result}')

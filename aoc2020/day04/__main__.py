@@ -70,10 +70,12 @@ def check_1(dataset: list) -> int:
     return valid_count
 
 if __name__ == '__main__':
-    sample, data = read_input(__file__)
+    samples, data = read_input(__file__)
 
-    sample_parsed = parse_data(sample)
+    sample1_parsed = parse_data(samples[0])
+    samples_parsed = [sample1_parsed]
+
     data_parsed = parse_data(data)
 
-    run_checks(sample_parsed, data_parsed, [check_1],\
+    run_checks(samples_parsed, data_parsed, [check_1],\
         [SAMPLE_SOLUTION_1])

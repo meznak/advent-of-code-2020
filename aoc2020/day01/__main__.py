@@ -1,17 +1,25 @@
-from  ..shared import read_input
+'''
+Advent of Code Day 01
+Expenses
+'''
 
-sample_solution_1 = 514579
-sample_solution_2 = 241861950
+from  ..shared import read_input, run_checks
+
+SAMPLE_SOLUTIONS = [514579, 241861950]
 
 def solve_1(entries: [int]) -> int:
+    '''Solve part 1'''
+
     for i in range(len(entries)):
         for j in range(i, len(entries)):
             a = entries[i]
             b = entries[j]
             if a + b == 2020:
-                    return a * b
+                return a * b
 
 def solve_2(entries: [int]) -> int:
+    '''Solve part 2'''
+
     for i in range(len(entries)):
         for j in range(i, len(entries)):
             for k in range(j, len(entries)):
@@ -19,21 +27,13 @@ def solve_2(entries: [int]) -> int:
                 b = entries[j]
                 c = entries[k]
                 if a + b + c == 2020:
-                        return a * b * c
+                    return a * b * c
 
 if __name__ == "__main__":
-    sample, data = read_input(__file__)
-    sample = [int(entry) for entry in sample]
-    data = [int(entry) for entry in data]
+    samples, data = read_input(__file__)
+    samples_parsed = [[int(entry) for entry in sample] for sample in samples]
+    data_parsed = [int(entry) for entry in data]
 
-    sample_result_1 = solve_1(sample)
-    assert(sample_result_1 == sample_solution_1), \
-        f'''Sample solution 1 incorrect:
-        Expected {sample_solution_1}, received {sample_result_1}'''
-    print(f'part 1: {solve_1(data)}')
+    checks = [solve_1, solve_2]
 
-    sample_result_2 = solve_2(sample)
-    assert(sample_result_2 == sample_solution_2), \
-        f'''Sample solution 2 incorrect:
-        Expected {sample_solution_2}, received {sample_result_2}'''
-    print(f'part 2: {solve_2(data)}')
+    run_checks(samples_parsed, data_parsed, checks, SAMPLE_SOLUTIONS)

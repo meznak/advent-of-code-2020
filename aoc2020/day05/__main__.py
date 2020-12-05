@@ -6,7 +6,7 @@ Binary Boarding
 import re
 from ..shared import read_input, run_solvers
 
-SAMPLE_SOLUTIONS = [820]
+SAMPLE_SOLUTIONS = [820, 568]
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -37,9 +37,23 @@ def solve_1(dataset: list) -> int:
 
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
-    for item in dataset:
-        # TODO: Build solution
-        pass
+
+    seats = []
+
+    for (row, col) in dataset:
+        seat_id = row * 8 + col
+        seats.append(seat_id)
+
+    seats.sort()
+
+    for index in range(1, len(seats) - 1):
+        this_seat = seats[index]
+        next_seat = seats[index + 1]
+
+        if next_seat != this_seat + 1:
+            my_seat = this_seat + 1
+
+    return my_seat
 
 if __name__ == '__main__':
     samples, data = read_input(__file__)

@@ -1,6 +1,6 @@
 '''
 Advent of Code Day 02
-Password validation
+Password Philosophy
 '''
 
 import re

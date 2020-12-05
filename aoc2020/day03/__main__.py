@@ -1,6 +1,6 @@
 '''
 Advent of Code Day 03
-Toboggan tree counting
+Toboggan Trajectory
 '''
 
 from ..shared import read_input, run_solvers

@@ -1,67 +1,60 @@
-from ..shared import read_input
-from typing import Callable
+'''
+Advent of Code Day 02
+Password validation
+'''
+
 import re
+from ..shared import read_input, run_checks
 
-sample_solution_1 = 2
-sample_solution_2 = 1
+SAMPLE_SOLUTIONS = [2, 1]
 
-def parse_data(data: str) -> int:
-    p = re.compile('(?P<min>\d+)-(?P<max>\d+)\s(?P<chr>\w):\s(?P<password>\w+)')
+def parse_data(dataset: str) -> int:
+    '''Interpret passwords and requirements'''
+    re_pattern = re.compile(r'(?P<min>\d+)-(?P<max>\d+)\s(?P<char>\w):\s(?P<password>\w+)')
 
     parsed = []
 
-    for entry in data:
-        m = p.search(entry).groupdict()
-        m['min'] = int(m['min'])
-        m['max'] = int(m['max'])
-        parsed.append(m)
+    for entry in dataset:
+        re_match = re_pattern.search(entry).groupdict()
+        re_match['min'] = int(re_match['min'])
+        re_match['max'] = int(re_match['max'])
+        parsed.append(re_match)
 
     return parsed
 
-def check_password_1(entry: dict) -> int:
-    chr_count = entry['password'].count(entry['chr'])
-    if entry['min'] <= chr_count <= entry['max']:
-        is_valid = 1
-    else:
-        is_valid = 0
+def check_password_1(dataset: dict) -> int:
+    '''Solve part 1'''
 
-    return is_valid
+    valid_count = 0
 
-def check_password_2(entry: dict) -> int:
-    chr = entry['chr']
-    first = entry['password'][entry['min']-1]
-    second = entry['password'][entry['max']-1]
+    for entry in dataset:
+        chr_count = entry['password'].count(entry['char'])
+        if entry['min'] <= chr_count <= entry['max']:
+            valid_count += 1
 
-    if (first == chr) ^ (second == chr):
-        is_valid = 1
-    else:
-        is_valid = 0
+    return valid_count
 
-    return is_valid
+def check_password_2(dataset: dict) -> int:
+    '''Solve part 2'''
 
-def check_list(sample: dict, data: dict, \
-    check: Callable[[int, int, str, str], int], sample_solution: int) -> int:
+    valid_count = 0
 
-    run_count = 0
-    for dataset in [sample, data]:
-        valid_count = 0
-        parsed = parse_data(dataset)
+    for entry in dataset:
+        char = entry['char']
+        first = entry['password'][entry['min']-1]
+        second = entry['password'][entry['max']-1]
 
-        for entry in parsed:
-            valid_count += check(entry)
+        if (first == char) ^ (second == char):
+            valid_count += 1
 
-        if run_count == 0:
-            assert(valid_count == sample_solution), \
-                f'''Expected {sample_solution}, got {valid_count}'''
-            run_count += 1
-        else:
-            return valid_count
+    return valid_count
 
 if __name__ == '__main__':
-    sample, data = read_input(__file__)
+    samples, data = read_input(__file__)
 
-    valid_count = check_list(sample, data, check_password_1, sample_solution_1)
-    print(f'part 1: {valid_count}')
+    samples_parsed = [parse_data(sample) for sample in samples]
+    data_parsed = parse_data(data)
 
-    valid_count = check_list(sample, data, check_password_2, sample_solution_2)
-    print(f'part 2: {valid_count}')
+    checks = [check_password_1, check_password_2]
+
+    run_checks(samples_parsed, data_parsed, checks, SAMPLE_SOLUTIONS)

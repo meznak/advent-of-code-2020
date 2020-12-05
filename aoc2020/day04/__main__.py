@@ -1,9 +1,15 @@
-from ..shared import *
-import re
+'''
+Advent of Code Day 02
+Passport verification
+'''
 
-sample_solution_1 = 2
+import re
+from ..shared import read_input, run_checks
+
+SAMPLE_SOLUTION_1 = 2
 
 class Passport:
+    '''Contains fields on a passport'''
     def __init__(self):
         self.byr = None
         self.iyr = None
@@ -15,6 +21,7 @@ class Passport:
         self.cid = None
 
 def parse_data(dataset: list) -> list:
+    '''Interpret string data as Passport'''
     passports = []
 
     record = None
@@ -23,7 +30,7 @@ def parse_data(dataset: list) -> list:
 
     for line in dataset:
         if line != '':
-            if record == None:
+            if record is None:
                 record = line
             else:
                 record = ' '.join([record, line])
@@ -46,13 +53,14 @@ def parse_data(dataset: list) -> list:
     return passports
 
 def check_1(dataset: list) -> int:
+    '''Solve part 1'''
     valid_count = 0
 
     for item in dataset:
         is_valid = True
 
-        for property in ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']:
-            if getattr(item, property) is None:
+        for pass_property in ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']:
+            if getattr(item, pass_property) is None:
                 is_valid = False
                 break
 
@@ -68,4 +76,4 @@ if __name__ == '__main__':
     data_parsed = parse_data(data)
 
     run_checks(sample_parsed, data_parsed, [check_1],\
-        [sample_solution_1])
+        [SAMPLE_SOLUTION_1])

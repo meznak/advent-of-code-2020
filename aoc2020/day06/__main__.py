@@ -5,7 +5,7 @@ Custom Customs
 
 from ..shared import read_input, run_solvers
 
-SAMPLE_SOLUTIONS = [11]
+SAMPLE_SOLUTIONS = [11, 6]
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -26,18 +26,31 @@ def solve_1(dataset: list) -> int:
 
     total = 0
 
-    for item in dataset:
-        questions = ''.join(item)
-        questions = set(list(questions))
+    for group in dataset:
+        questions = ''.join(group)
+        questions = set(questions)
         total += len(questions)
 
     return total
 
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
-    for item in dataset:
-        # TODO: Build solution
-        pass
+
+    total = 0
+
+    for group in dataset:
+        seen_questions = None
+
+        for person in group:
+            questions = set(person)
+            if seen_questions is None:
+                seen_questions = questions
+            else:
+                seen_questions &= questions
+
+        total += len(seen_questions)
+
+    return total
 
 if __name__ == '__main__':
     samples, data = read_input(__file__)

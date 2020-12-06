@@ -1,44 +1,7 @@
-# TODO: Add day and title
-'''
-Advent of Code Day XX
-TITLE
-'''
-
-from ..shared import read_input, run_solvers
-
-# TODO: Add sample solutions
-SAMPLE_SOLUTIONS = []
-
-def parse_data(dataset: list) -> list:
-    '''Interpret string data'''
-    output = []
-
-    for entry in dataset:
-        # TODO: Build parser
-        pass
-
-    return output
-
-def solve_1(dataset: list) -> int:
-    '''Solve part 1'''
-
-    for item in dataset:
-        # TODO: Build solution
-        pass
-
-def solve_2(dataset: list) -> int:
-    '''Solve part 2'''
-    for item in dataset:
-        # TODO: Build solution
-        pass
+from ..shared import parse_input, run_solvers
+from . import parse_data, solve_1, solve_2, SAMPLE_SOLUTIONS
 
 if __name__ == '__main__':
-    samples, data = read_input(__file__)
+    samples, data = parse_input(__file__, parse_data)
 
-    samples_parsed = [parse_data(sample) for sample in samples]
-
-    data_parsed = parse_data(data)
-
-    solvers = [solve_1, solve_2]
-
-    run_solvers(samples_parsed, data_parsed, solvers, SAMPLE_SOLUTIONS)
+    run_solvers(samples, data, [solve_1, solve_2], SAMPLE_SOLUTIONS)

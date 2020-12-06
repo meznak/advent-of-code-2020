@@ -37,6 +37,15 @@ def read_input(script_file: str) -> (list, list, list):
 
     return (samples, data)
 
+def parse_input(script_file: str, parse_data: Callable[[], list]) -> tuple:
+    '''Read and parse data'''
+    samples, data = read_input(script_file)
+
+    samples_parsed = [parse_data(sample) for sample in samples]
+    data_parsed = parse_data(data)
+
+    return samples_parsed, data_parsed
+
 def solve_list(sample: [str], data: [str], solve: Callable[[list], int], \
     sample_solution: int) -> int:
     '''

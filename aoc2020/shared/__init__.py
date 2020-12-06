@@ -12,14 +12,19 @@ def read_input(script_file: str) -> (list, list, list):
 
     path = os.path.dirname(os.path.realpath(script_file))
 
-    with open(os.path.join(path, 'sample1'), 'r') as in_file:
+    sample_file = os.path.join(path, 'sample1')
+    with open(sample_file, 'r') as in_file:
         sample_1 = [entry.strip() for entry in in_file.readlines()]
+        sample_1.append('')
 
     try:
-        with open(os.path.join(path, 'sample2'), 'r') as in_file:
-            sample_2 = [entry.strip() for entry in in_file.readlines()]
-            if len(sample_2) == 0:
-                sample_2 = sample_1
+        sample_file = os.path.join(path, 'sample2')
+        if os.stat(sample_file).st_size > 0:
+            with open(sample_file, 'r') as in_file:
+                sample_2 = [entry.strip() for entry in in_file.readlines()]
+                sample_2.append('')
+        else:
+            sample_2 = sample_1
     except FileNotFoundError:
         sample_2 = sample_1
         print('sample2 file not found')
@@ -28,6 +33,7 @@ def read_input(script_file: str) -> (list, list, list):
 
     with open(os.path.join(path, 'input'), 'r') as in_file:
         data = [entry.strip() for entry in in_file.readlines()]
+        data.append('')
 
     return (samples, data)
 

@@ -6,7 +6,7 @@ Handy Haversacks
 from copy import copy
 import re
 
-SAMPLE_SOLUTIONS = [4]
+SAMPLE_SOLUTIONS = [4, 32]
 
 class Bag:
     '''Describes a bag and its contents'''
@@ -53,6 +53,19 @@ class Bag:
 
             self.contents = own_contents
             self.found_contents = True
+
+    def count_bags(self) -> int:
+        '''Count bags contained in this bag'''
+
+        contained_bag_count = 0
+
+        for bag in self.contents:
+            if bag.color in self.rules:
+                sub_count = bag.count_bags()
+                multiplier = self.rules[bag.color]
+                contained_bag_count += (sub_count + 1) * multiplier
+
+        return contained_bag_count
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -101,6 +114,14 @@ def solve_1(dataset: list) -> int:
 
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
+    gold_bag = None
+    contained_bag_count = 0
+
     for item in dataset:
-        # TODO: Build solution
-        pass
+        item.build_contents(dataset)
+        if item.color == 'shiny gold':
+            gold_bag = item
+
+    contained_bag_count = gold_bag.count_bags()
+
+    return contained_bag_count

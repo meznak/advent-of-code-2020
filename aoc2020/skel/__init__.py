@@ -9,6 +9,7 @@ SAMPLE_SOLUTIONS = []
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
+
     output = []
 
     for item in dataset:

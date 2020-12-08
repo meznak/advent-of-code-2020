@@ -20,17 +20,17 @@ class Instruction(object):
 
     def interpret(self):
         '''Determine the result of an instruction'''
-        ip = 1
-        acc = 0
+        instr_ptr = 1
+        accumulator = 0
 
         if self.code == 'nop':
             pass
         elif self.code == 'acc':
-            acc = self.value
+            accumulator = self.value
         elif self.code == 'jmp':
-            ip = self.value
+            instr_ptr = self.value
 
-        return ip, acc
+        return instr_ptr, accumulator
 
     def flip(self):
         '''Swap a nop for jmp or vice versa'''
@@ -58,19 +58,19 @@ def parse_data(dataset: list) -> list:
 def solve_1(program: list) -> int:
     '''Solve part 1'''
 
-    ip = 0
-    acc = 0
+    instr_ptr = 0
+    accumulator = 0
 
-    while program[ip].run_count == 0:
-        instruction = program[ip]
+    while program[instr_ptr].run_count == 0:
+        instruction = program[instr_ptr]
         instruction.run_count += 1
 
         ip_delta, acc_delta = instruction.interpret()
 
-        ip += ip_delta
-        acc += acc_delta
+        instr_ptr += ip_delta
+        accumulator += acc_delta
 
-    return acc
+    return accumulator
 
 def solve_2(program: list) -> int:
     '''Solve part 2'''
@@ -80,25 +80,26 @@ def solve_2(program: list) -> int:
     found = False
     while not found:
         changed_index = -1
-        ip = 0
-        acc = 0
+        instr_ptr = 0
+        accumulator = 0
 
         # Run the program
-        while program[ip].run_count == 0:
-            program[ip].run_count += 1
+        while program[instr_ptr].run_count == 0:
+            instruction = program[instr_ptr]
+            instruction.run_count += 1
 
             if changed_index == -1 \
-                and program[ip].code in ['nop', 'jmp'] \
-                and not program[ip].was_tried:
-                changed_index = ip
-                program[ip].flip()
+                and instruction.code in ['nop', 'jmp'] \
+                and not instruction.was_tried:
+                changed_index = instr_ptr
+                instruction.flip()
 
-            ip_delta, acc_delta = program[ip].interpret()
+            ip_delta, acc_delta = instruction.interpret()
 
-            ip += ip_delta
-            acc += acc_delta
+            instr_ptr += ip_delta
+            accumulator += acc_delta
 
-            if ip >= program_end:
+            if instr_ptr >= program_end:
                 found = True
                 break
 
@@ -107,4 +108,4 @@ def solve_2(program: list) -> int:
             for instruction in program:
                 instruction.run_count = 0
 
-    return acc
+    return accumulator

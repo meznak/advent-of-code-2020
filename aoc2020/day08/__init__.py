@@ -3,7 +3,7 @@ Advent of Code Day 08
 Handheld Halting
 '''
 
-SAMPLE_SOLUTIONS = [5]
+SAMPLE_SOLUTIONS = [5, 8]
 
 class Instruction(object):
     '''A single instruction
@@ -16,6 +16,31 @@ class Instruction(object):
         self.code = code
         self.value = value
         self.run_count = 0
+        self.was_tried = False
+
+    def interpret(self):
+        '''Determine the result of an instruction'''
+        ip = 1
+        acc = 0
+
+        if self.code == 'nop':
+            pass
+        elif self.code == 'acc':
+            acc = self.value
+        elif self.code == 'jmp':
+            ip = self.value
+
+        return ip, acc
+
+    def flip(self):
+        '''Swap a nop for jmp or vice versa'''
+
+        if self.code == 'nop':
+            self.was_tried = True
+            self.code = 'jmp'
+        elif self.code == 'jmp':
+            self.was_tried = True
+            self.code = 'nop'
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -37,24 +62,49 @@ def solve_1(program: list) -> int:
     acc = 0
 
     while program[ip].run_count == 0:
-        code = program[ip].code
-        value = program[ip].value
-        program[ip].run_count += 1
+        instruction = program[ip]
+        instruction.run_count += 1
 
-        if code == 'nop':
-            pass
-        elif code == 'acc':
-            acc += value
-        elif code == 'jmp':
-            ip += value
+        ip_delta, acc_delta = instruction.interpret()
 
-        if code != 'jmp':
-            ip += 1
+        ip += ip_delta
+        acc += acc_delta
 
     return acc
 
-def solve_2(dataset: list) -> int:
+def solve_2(program: list) -> int:
     '''Solve part 2'''
-    for item in dataset:
-        # TODO: Build solution
-        pass
+
+    program_end = len(program)
+
+    found = False
+    while not found:
+        changed_index = -1
+        ip = 0
+        acc = 0
+
+        # Run the program
+        while program[ip].run_count == 0:
+            program[ip].run_count += 1
+
+            if changed_index == -1 \
+                and program[ip].code in ['nop', 'jmp'] \
+                and not program[ip].was_tried:
+                changed_index = ip
+                program[ip].flip()
+
+            ip_delta, acc_delta = program[ip].interpret()
+
+            ip += ip_delta
+            acc += acc_delta
+
+            if ip >= program_end:
+                found = True
+                break
+
+        if not found:
+            program[changed_index].flip()
+            for instruction in program:
+                instruction.run_count = 0
+
+    return acc

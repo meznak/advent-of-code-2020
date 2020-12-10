@@ -3,7 +3,7 @@ Advent of Code Day 10
 Adapter Array
 '''
 
-SAMPLE_SOLUTIONS = [220]
+SAMPLE_SOLUTIONS = [220, 19208]
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -33,6 +33,15 @@ def solve_1(dataset: list) -> int:
 
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
-    for item in dataset:
-        # TODO: Build solution
-        pass
+
+    last_index = len(dataset) - 1
+    paths_to_end = [0] * len(dataset)
+    paths_to_end[-1] = 1
+
+    for index in range(len(dataset) - 1, -1, -1):
+        for next_index in range(index + 1, index + 4):
+            if next_index <= last_index and \
+                dataset[next_index] <= dataset[index] + 3:
+                paths_to_end[index] += paths_to_end[next_index]
+
+    return paths_to_end[0]

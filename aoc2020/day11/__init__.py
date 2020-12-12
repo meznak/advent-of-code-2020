@@ -5,7 +5,7 @@ Seating System
 
 from copy import deepcopy
 
-SAMPLE_SOLUTIONS = [37]
+SAMPLE_SOLUTIONS = [37, 26]
 
 class Cell(object):
     '''Stores info about a grid cell'''
@@ -74,22 +74,22 @@ class Cell(object):
             offset += 1
 
     @staticmethod
-    def update_grid(dataset: list) -> list:
+    def update_grid(dataset: list, threshold: int) -> list:
         '''Update seats until chaos stabilizes'''
         changed = True
 
         while changed:
             changed = False
 
-            for y, row in enumerate(dataset):
-                for x, cell in enumerate(row):
+            for row in dataset:
+                for cell in row:
                     if cell.is_seat:
                         neighbors = cell.count_neighbors()
 
                         if not cell.is_occupied and neighbors == 0:
                             cell.new_state = True
                             changed = True
-                        elif cell.is_occupied and neighbors >= 4:
+                        elif cell.is_occupied and neighbors >= threshold:
                             cell.new_state = False
                             changed = True
 
@@ -147,13 +147,17 @@ def solve_1(dataset: list) -> int:
         for x, cell in enumerate(row):
             cell.find_neighbors(x, y, dataset, True)
 
-    dataset = Cell.update_grid(dataset)
+    dataset = Cell.update_grid(dataset, 4)
 
     return Cell.count_occupied_seats(dataset)
 
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
 
-    for item in dataset:
-        # TODO: Build solution
-        pass
+    for y, row in enumerate(dataset):
+        for x, cell in enumerate(row):
+            cell.find_neighbors(x, y, dataset, False)
+
+    dataset = Cell.update_grid(dataset, 5)
+
+    return Cell.count_occupied_seats(dataset)

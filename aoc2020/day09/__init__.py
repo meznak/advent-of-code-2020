@@ -25,7 +25,7 @@ def find_pair(dataset: list, index: int, window: int) -> bool:
 def find_sequence(dataset: list, target: int) -> list:
     '''Find a contiguous sequence that adds to target'''
 
-    for i in range(len(dataset)):
+    for i in enumerate(dataset):
         sequence_sum = dataset[i]
         for j in range(i + 1, len(dataset)):
             sequence_sum += dataset[j]

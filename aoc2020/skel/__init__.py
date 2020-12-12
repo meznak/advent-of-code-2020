@@ -27,6 +27,7 @@ def solve_1(dataset: list) -> int:
 
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
+
     for item in dataset:
         # TODO: Build solution
         pass

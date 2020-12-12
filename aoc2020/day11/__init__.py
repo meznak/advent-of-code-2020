@@ -15,24 +15,12 @@ class Cell(object):
         self.is_occupied = False
         self.neighbors = None
 
-    def count_neighbors(self, x: int, y: int, grid: [int]) -> int:
+    def count_neighbors(self) -> int:
         '''Count which of a cells neighbors are occupied seats'''
 
-        # Determine grid boundaries
-        max_x = len(grid[0]) - 1
-        max_y = len(grid) - 1
-
-        count = 0
-
-        for row in range(y - 1, y + 2):
-            # Check grid bounds
-            if row >= 0 and 0 <= row <= max_y:
-                for col in range(x - 1, x + 2):
-                    # Check grid bounds and exclude self
-                    if 0 <= col <= max_x \
-                        and not (row == y and col == x):
-                        if grid[row][col].is_seat and grid[row][col].is_occupied:
-                            count += 1
+        for neighbor in self.neighbors:
+            if neighbor.is_occupied:
+                count += 1
 
         return count
 

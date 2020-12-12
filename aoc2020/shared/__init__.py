@@ -61,6 +61,7 @@ def solve_list(sample: [str], data: [str], solve: Callable[[list], int], \
         if run_count == 0:
             assert(result == sample_solution), \
                 f'''Expected {sample_solution}, got {result}'''
+            print('test passed')
             run_count += 1
 
     return result

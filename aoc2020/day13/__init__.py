@@ -39,6 +39,7 @@ def egcd(a: int, b: int) -> tuple:
     return b, s2, t2
 
 def chinese_remainder(n_list: int, a_list: int) -> int:
+    '''Chinese Remainder Theorem'''
     solution = 0
     N = 1
 
@@ -47,14 +48,13 @@ def chinese_remainder(n_list: int, a_list: int) -> int:
 
     for n, a in zip(n_list, a_list):
         if n > 0:
-            p = N // n
-            gcd, x, y = egcd(p, n)
-            u = x % n
 
-            solution += a * p * u
+            m = N // n
+            gcd, x, y = egcd(n, m)
 
-    return solution
+            solution += a * m * y
 
+    return N - (solution % N)
 
 def solve_1(dataset: list) -> int:
     '''Solve part 1'''

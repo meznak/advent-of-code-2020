@@ -21,6 +21,41 @@ def parse_data(dataset: list) -> list:
 
     return output
 
+def egcd(a: int, b: int) -> tuple:
+    '''Extended Euclidean GCD'''
+
+    s1, s2, t1, t2 = 1, 0, 0, 1
+    q, r = a // b, a % b
+    s3 = s1 - q * s2
+    t3 = t1 - q * t2
+    while r:
+        a, b = b, r
+        s1, s2 = s2, s3
+        t1, t2 = t2, t3
+
+        q, r = a // b, a % b
+        s3 = s1 - q * s2
+        t3 = t1 - q * t2
+    return b, s2, t2
+
+def chinese_remainder(n_list: int, a_list: int) -> int:
+    solution = 0
+    N = 1
+
+    for n in n_list:
+        N *= n
+
+    for n, a in zip(n_list, a_list):
+        if n > 0:
+            p = N // n
+            gcd, x, y = egcd(p, n)
+            u = x % n
+
+            solution += a * p * u
+
+    return solution
+
+
 def solve_1(dataset: list) -> int:
     '''Solve part 1'''
 
@@ -42,27 +77,9 @@ def solve_2(dataset: list) -> int:
     buses = list(enumerate(dataset[1]))
     buses = [bus for bus in buses if bus[1] != 'x']
 
-    if len(buses) > 10:
-        earliest = 100000000000000
-    else:
-        earliest = 1000000
-    time_step = max([bus[1] for bus in buses])
+    bus_ids = [bus[1] for bus in buses]
+    offsets = [bus[0] for bus in buses]
 
-    for bus in buses:
-        if bus[1] == time_step:
-            offset = (earliest + bus[1]) % bus[1]
-            start_time = earliest + 2 * bus[1] - offset - bus[0]
-            break
-
-    found = False
-
-    while not found:
-        for bus in buses:
-            if (start_time + bus[0]) % bus[1] != 0:
-                start_time += time_step
-                break
-            if bus == buses[-1]:
-                found = True
-                break
+    start_time = chinese_remainder(bus_ids, offsets)
 
     return start_time

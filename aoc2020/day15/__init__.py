@@ -38,7 +38,7 @@ def get_nth_number(dataset: list, n: int) -> int:
                 numbers[new_number] = [turn]
             else:
                 numbers[new_number].append(turn)
-                numbers[new_number] = numbers[new_number][-2:]
+                del numbers[new_number][:-2]
 
             turn += 1
 

@@ -6,7 +6,7 @@ Docking Data
 import re
 from copy import deepcopy
 
-SAMPLE_SOLUTIONS = [165]
+SAMPLE_SOLUTIONS = [165, 208]
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''

@@ -2,7 +2,7 @@
 Shared library for AoC2020 solutions
 '''
 
-import os
+import os, timeit
 from typing import Callable
 
 def read_input(script_file: str) -> (list, list, list):
@@ -56,7 +56,10 @@ def solve_list(sample: [str], data: [str], solve: Callable[[list], int], \
     run_count = 0
 
     for dataset in [sample, data]:
+        start = timeit.default_timer()
         result = solve(dataset)
+        stop = timeit.default_timer()
+        print(f'Time: {stop - start:.9f} seconds')
 
         if run_count == 0:
             assert(result == sample_solution), \

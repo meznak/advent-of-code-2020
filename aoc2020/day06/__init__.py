@@ -10,6 +10,9 @@ def parse_data(dataset: list) -> list:
     output = []
     group = []
 
+    if dataset[-1] != '':
+        dataset.append('')
+
     for entry in dataset:
         if entry != '':
             group.append(entry)
@@ -25,8 +28,7 @@ def solve_1(dataset: list) -> int:
     total = 0
 
     for group in dataset:
-        questions = ''.join(group)
-        questions = set(questions)
+        questions = set(''.join(group))
         total += len(questions)
 
     return total

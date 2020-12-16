@@ -6,7 +6,7 @@ Ticket Translation
 import re
 from copy import copy
 
-SAMPLE_SOLUTIONS = [71]
+SAMPLE_SOLUTIONS = [71, 156]
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -74,6 +74,46 @@ def solve_1(dataset: list) -> int:
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
 
-    for item in dataset:
-        # TODO: Build solution
-        pass
+    my_ticket = dataset[0]
+    fields = dataset[1]
+    tickets = dataset[2]
+
+    field_order = [[copy(field) for field in fields] for field in fields]
+
+    # Remove known bad tickets
+    invalid_tickets = invalidate_tickets(fields, tickets)
+    for ticket in invalid_tickets:
+        tickets.remove(ticket[0])
+
+    # Determine field order
+    for ticket in tickets:
+        for index, number in enumerate(ticket):
+            for field in fields:
+                if not (fields[field][0] <= number <= fields[field][1] \
+                    or fields[field][2] <= number <= fields[field][3]):
+                    field_order[index].remove(field)
+
+    # Remove known fields from possibility list of others
+    changed = True
+    while changed:
+        changed = False
+        for field in field_order:
+            if len(field) == 1:
+                field_name = field[0]
+                for other_field in field_order:
+                    if other_field == field:
+                        continue
+
+                    try:
+                        other_field.remove(field_name)
+                        changed = True
+                    except ValueError:
+                        pass
+
+    # Find fields starting with 'departure'
+    product = 1
+    for index, field in enumerate(field_order):
+        if field[0][:9] == 'departure':
+            product *= my_ticket[index]
+
+    return product

@@ -2,7 +2,8 @@
 Shared library for AoC2020 solutions
 '''
 
-import os, timeit
+import os
+import timeit
 from typing import Callable
 
 def read_input(script_file: str) -> (list, list, list):
@@ -15,14 +16,12 @@ def read_input(script_file: str) -> (list, list, list):
     sample_file = os.path.join(path, 'sample1')
     with open(sample_file, 'r') as in_file:
         sample_1 = [entry.strip() for entry in in_file.readlines()]
-        sample_1.append('')
 
     try:
         sample_file = os.path.join(path, 'sample2')
         if os.stat(sample_file).st_size > 0:
             with open(sample_file, 'r') as in_file:
                 sample_2 = [entry.strip() for entry in in_file.readlines()]
-                sample_2.append('')
         else:
             sample_2 = sample_1
     except FileNotFoundError:

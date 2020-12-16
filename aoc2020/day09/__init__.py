@@ -25,14 +25,13 @@ def find_pair(dataset: list, index: int, window: int) -> bool:
 def find_sequence(dataset: list, target: int) -> list:
     '''Find a contiguous sequence that adds to target'''
 
-    for i in enumerate(dataset):
-        sequence_sum = dataset[i]
-        for j in range(i + 1, len(dataset)):
-            sequence_sum += dataset[j]
+    for i, sequence_sum in enumerate(dataset):
+        for j, next_number in enumerate(dataset[i + 1:], i + 1):
+            sequence_sum += next_number
             if sequence_sum > target:
                 break
             if sequence_sum == target:
-                return dataset[i:j + 1]
+                return dataset[i:j]
     return []
 
 def solve_1(dataset: list) -> int:

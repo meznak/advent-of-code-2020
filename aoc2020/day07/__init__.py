@@ -85,8 +85,8 @@ def parse_data(dataset: list) -> list:
 
         for rule in rules:
             try:
-                rule_terms = re_rule.search(rule).groupdict()
-                bag.add_rule(rule_terms['color'], int(rule_terms['count']))
+                count, color = re_rule.search(rule).groups()
+                bag.add_rule(color, int(count))
             except AttributeError:
                 # bag contains no other bags
                 pass

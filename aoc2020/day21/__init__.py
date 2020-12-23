@@ -5,7 +5,7 @@ Allergen Assessment
 
 import re
 
-SAMPLE_SOLUTIONS = [5]
+SAMPLE_SOLUTIONS = [5, 'mxmxvkd,sqjhc,fvjkl']
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -33,8 +33,9 @@ def parse_data(dataset: list) -> list:
 
     return [all_allergens, all_ingredients_list]
 
-def find_possibles(allergens: dict) -> set:
-    possibles = set()
+def find_possibles(allergens: dict) -> dict:
+    '''Find possible ingredients for each allergen'''
+    possibles = dict()
 
     for allergen in allergens:
         temp = None
@@ -44,7 +45,7 @@ def find_possibles(allergens: dict) -> set:
 
             temp = temp.intersection(ingredients)
 
-        possibles = possibles.union(temp)
+        possibles[allergen] = temp
 
     return possibles
 
@@ -53,9 +54,14 @@ def solve_1(dataset: list) -> int:
 
     allergens = dataset[0]
     all_ingredients = dataset[1]
+    danger = set()
 
-    possibles = find_possibles(allergens)
-    safe = set(all_ingredients) - possibles
+    possibles_by_allergen = find_possibles(allergens)
+
+    for allergen in possibles_by_allergen:
+        danger = danger.union(possibles_by_allergen[allergen])
+
+    safe = set(all_ingredients) - danger
 
     count = 0
     for ingredient in safe:
@@ -66,6 +72,27 @@ def solve_1(dataset: list) -> int:
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
 
-    for item in dataset:
-        # TODO: Build solution
-        pass
+    allergens = dataset[0]
+    danger = set()
+
+    possibles_by_allergen = find_possibles(allergens)
+
+    changed = True
+
+    while changed:
+        changed = False
+        for allergen in possibles_by_allergen:
+            if len(possibles_by_allergen[allergen]) == 1:
+                ingredient = possibles_by_allergen[allergen]
+                for next_allergen in possibles_by_allergen:
+                    if next_allergen == allergen:
+                        continue
+
+                    new_next = possibles_by_allergen[next_allergen] - ingredient
+                    if new_next != possibles_by_allergen[next_allergen]:
+                        possibles_by_allergen[next_allergen] = new_next
+                        changed = True
+
+    danger = [possibles_by_allergen[p] for p in sorted(possibles_by_allergen)]
+    danger_list = ','.join([''.join(list(d)) for d in danger])
+    return danger_list

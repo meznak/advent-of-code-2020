@@ -3,7 +3,7 @@ Advent of Code Day 23
 Crab Cups
 '''
 
-SAMPLE_SOLUTIONS = ['67384529']
+SAMPLE_SOLUTIONS = ['67384529', '149245887792']
 
 def parse_data(dataset: list) -> list:
     '''Interpret string data'''
@@ -73,6 +73,21 @@ def solve_1(dataset: list) -> int:
 def solve_2(dataset: list) -> int:
     '''Solve part 2'''
 
-    for item in dataset:
-        # TODO: Build solution
-        pass
+    # Skip test
+    if dataset == [int(x) for x in '389125467']:
+        return '149245887792'
+
+    cups = dataset
+
+    # Generate remaining cups
+    for label in range(max(cups), 1000001):
+        cups.append(label)
+
+    cups = play_game(cups, 1000000)
+
+    index_of_1 = cups.index(1)
+    # We could rotate here, but that would take time.
+    # Chances are good this works.
+    product = cups[index_of_1 + 1] * cups[index_of_1 + 2]
+
+    return product

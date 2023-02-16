@@ -17,10 +17,6 @@ def count_trees_1(rows: [str]) -> int:
     checked = []
 
     while row_num < line_count - 1:
-        # Move the cursor
-        row_num += 1
-        col_num += 3
-
         line = rows[row_num]
 
         line = list(line)
@@ -33,6 +29,10 @@ def count_trees_1(rows: [str]) -> int:
             line[pos] = 'O'
 
         checked.append(''.join(line))
+
+        # Move the cursor
+        row_num += 1
+        col_num += 3
 
     return tree_count
 
@@ -49,10 +49,6 @@ def count_trees_2(rows: [str]) -> int:
         checked = []
 
         while row_num < col_num - 1:
-            # Move the cursor
-            row_num += slope[1]
-            col += slope[0]
-
             line = rows[row_num]
 
             line = list(line)
@@ -65,6 +61,10 @@ def count_trees_2(rows: [str]) -> int:
                 line[pos] = 'O'
 
             checked.append(''.join(line))
+
+            # Move the cursor
+            row_num += slope[1]
+            col += slope[0]
 
         product *= tree_count
 
